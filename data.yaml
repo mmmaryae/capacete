@@ -1,0 +1,7 @@
+path: dataset_yolo
+train: images/train
+val: images/val
+
+names:
+  0: com_capacete
+  1: sem_capacete
