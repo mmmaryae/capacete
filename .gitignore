@@ -18,6 +18,7 @@ runs/
 # Datasets
 dataset_bruto/
 dataset_yolo/
+dataset_download/
 
 # Captures and logs
 captures/
