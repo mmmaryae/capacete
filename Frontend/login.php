@@ -19,12 +19,12 @@
             <span>CamCore</span>
         </div>
             <div class="nav-buttons">
-            <a href="/Frontend/login.php">
+            <a href="login.php">
                 <button class="btn-nav">Login</button>
-            </a>   
-            <a href="/Frontend/cadastro.php">
+            </a>
+            <a href="cadastro.php">
                 <button class="btn-nav">Cadastro</button>
-            </a> 
+            </a>
             </div>
     </header>
 

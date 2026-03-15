@@ -41,10 +41,10 @@
             <span>CamCore</span>
         </div>
             <div class="nav-buttons">
-            <a href="/Frontend/login.php">
+            <a href="login.php">
                 <button class="btn-nav">Login</button>
             </a>
-            <a href="/Frontend/cadastro.php">
+            <a href="cadastro.php">
                 <button class="btn-nav">Cadastro</button>
             </a>
             </div>
@@ -66,7 +66,11 @@
 
             
             <div class="form-group">
-                <div class="icon"></div>
+                <div class="icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </div>
                 <input type="email" name="email" class="input-field" placeholder="Email" required>
             </div>
 

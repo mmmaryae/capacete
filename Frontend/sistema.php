@@ -1,12 +1,12 @@
 <?php
     session_start();
-    if((!isset($_SESSION['email']) == true) and (!isser($_SESSION['senha']) == true ))
-        {   
-            unset($_SESSION['email']);
-            unset($_SESSION['password']);
-            header('Location: login.php');
-        }
-        $logado = $_SESSION['email'];
+    if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
+        session_unset();
+        session_destroy();
+        header('Location: login.php');
+        exit();
+    }
+    $logado = $_SESSION['email'];
 ?>
 
 <!DOCTYPE html>
@@ -107,7 +107,7 @@
             <span>CamCore</span>
         </div>
             <div class="nav-buttons">
-            <a href='/Frontend/sair.php'>    
+            <a href="sair.php">    
                 <button class="btn-nav">Sair</button>
             </a>
             </div>
