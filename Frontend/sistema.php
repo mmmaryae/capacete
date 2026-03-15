@@ -68,6 +68,7 @@
         .nav-buttons {
             display: flex;
             gap: 15px;
+            margin-left: auto;
         }
 
         .btn-nav {
@@ -107,7 +108,7 @@
             <span>CamCore</span>
         </div>
             <div class="nav-buttons">
-            <a href="sair.php">    
+            <a href='/Frontend/sair.php'>    
                 <button class="btn-nav">Sair</button>
             </a>
             </div>
