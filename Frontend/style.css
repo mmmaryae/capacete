@@ -1,0 +1,164 @@
+/* Reset de margens e configuração padrão */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Variáveis de Cores (baseadas na imagem) */
+        :root {
+            --bg-dark: #121721;        /* Fundo principal escuro */
+            --bg-card: #475569;        /* Fundo azul acinzentado (Header e Card) */
+            --bg-button: #1a202c;      /* Fundo dos botões (escuro) */
+            --bg-input: #94a3b8;       /* Fundo dos inputs (cinza) */
+            --text-light: #ffffff;     /* Texto branco */
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === CABEÇALHO (HEADER) === */
+        header {
+            background-color: var(--bg-card);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* SVG simples de uma câmera para simular a logo */
+        .logo-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: #cfd6df;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-nav {
+            background-color: var(--bg-button);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-nav:hover {
+            opacity: 0.8;
+        }
+
+        /* === ÁREA PRINCIPAL E CARD DE LOGIN === */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-card {
+            background-color: var(--bg-card);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px 50px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Ícones ao lado dos inputs */
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Campos de Entrada (Inputs) */
+        .input-field {
+            flex: 1;
+            background-color: var(--bg-input);
+            border: none;
+            padding: 14px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(---light);
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: var(--text-light);
+            opacity: 0.9;
+        }
+
+        /* Link Esqueci a Senha */
+        .forgot-password {
+            text-align: right;
+            color: var(--text-light);
+            text-decoration: none;
+            font-style: italic;
+            font-size: 13px;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            margin-right: 10px;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Botão de Login principal */
+        .btn-submit {
+            background-color: var(--bg-button);
+            color: var(--text-light);
+            border: none;
+            padding: 15px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
