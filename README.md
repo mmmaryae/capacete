@@ -1,3 +1,3 @@
 # Capacete AI
 
-Projeto de detecção de capacete usando YOLO.
+Projeto de detecção de capacete(EPI) usando YOLO.
