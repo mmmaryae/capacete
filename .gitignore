@@ -1,32 +1,16 @@
 # Python
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
+como_funciona.txt
 
-# Virtual environment
+# Ambiente virtual
 venv/
-.venv/
-env/
+epi_scanner.log
 
 # VSCode
 .vscode/
 
-# YOLO training results
-runs/
-
-# Datasets
-dataset_bruto/
-dataset_yolo/
-dataset_download/
-
-# Captures and logs
+#Capturas (prints do sistema)
 captures/
-logs/
 
-# Models
-*.pt
 
-# OS files
-.DS_Store
-Thumbs.db
