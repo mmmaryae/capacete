@@ -47,8 +47,9 @@ logger.info("Carregando modelo YOLO...")
 model = YOLO(str(MODEL_PATH))
 logger.info("Modelo carregado!")
 
-# ==================== ESTADO POR USUÁRIO ====================
-# cada usuário tem seu próprio estado de detecção independente
+# ESTADO POR USUÁRIO 
+#cada usuário tem seu próprio estado de detecção independente,
+#  isso serve para q caso entre outra pessoa no meio da scanner ele ainda consiga diferenciar
 estados_usuarios = {}
 
 def get_estado_usuario(usuario_id: int) -> dict:
