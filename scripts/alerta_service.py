@@ -1,5 +1,4 @@
 # salva os alertas no banco de dados MySQL
-# usuario_id por enquanto é 1 (padrão)
 # quando integrar com o login, substituir pelo ID real do usuário logado
 
 from datetime import datetime
@@ -77,5 +76,5 @@ def enviar_alerta(alerta):
 
 
 def enviar_status(resposta: dict):
-    # o backend preenche aqui quando estiver pronto
+    #o backend preenche aqui quando estiver pronto
     pass

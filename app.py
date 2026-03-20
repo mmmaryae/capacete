@@ -5,9 +5,9 @@ Recebe frames do navegador, processa com YOLO e salva alertas no banco.
 Rode com: uvicorn app:app --reload
 
 Rotas disponíveis:
-  POST /api/processar        → recebe frame, roda YOLO, retorna resultado
-  GET  /api/alertas          → lista todos os alertas (filtra por ?usuario_id=1)
-  GET  /api/alertas/hoje     → alertas do dia (filtra por ?usuario_id=1)
+  POST /api/processar-> recebe frame, roda YOLO, retorna resultado
+  GET  /api/alertas-> lista todos os alertas (filtra por ?usuario_id=1)
+  GET  /api/alertas/hoje-> alertas do dia (filtra por ?usuario_id=1)
 """
 
 import time
@@ -27,7 +27,7 @@ import uvicorn
 from scripts.alerta_service import montar_alerta, enviar_alerta, DB_CONFIG
 from scripts.resposta_front import montar_resposta_front
 
-# ==================== CONFIGURAÇÕES ====================
+# CONFIGURAÇÕES 
 BASE_DIR    = Path(__file__).parent
 MODEL_PATH  = BASE_DIR / "model" / "best.pt"
 CAPTURE_DIR = BASE_DIR / "captures"
@@ -38,7 +38,7 @@ COOLDOWN_SECONDS        = 10
 DISPLAY_ALERT_DURATION  = 2
 JPEG_QUALITY            = 95
 
-# ==================== LOGGING ====================
+#LOGGING 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -60,7 +60,7 @@ def get_estado_usuario(usuario_id: int) -> dict:
         }
     return estados_usuarios[usuario_id]
 
-# ==================== APP ====================
+#app
 app = FastAPI()
 
 app.add_middleware(
@@ -70,10 +70,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# serve as fotos capturadas para o frontend acessar
+#fotos capturadas para o frontend acessar
 app.mount("/captures", StaticFiles(directory="captures"), name="captures")
 
-# ==================== ROTAS ====================
+#rotas
 
 @app.post("/api/processar")
 async def processar_frame(request: Request):
@@ -86,7 +86,7 @@ async def processar_frame(request: Request):
     Retorna JSON com:
       status, tempo_sem_capacete, alerta, mensagem, acao_front, alerta_registrado
     """
-    # pega o ID do usuário logado — quando integrar com login, vem automaticamente
+    #pega o id do usuário logado quando integrar com login, vem automaticamente
     usuario_id = int(request.headers.get("X-Usuario-ID", 1))
 
     body = await request.body()
