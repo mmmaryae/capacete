@@ -41,15 +41,14 @@ JPEG_QUALITY            = 95
 #LOGGING 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-# ==================== MODELO ====================
+#modelo
 logger.info("Carregando modelo YOLO...")
 model = YOLO(str(MODEL_PATH))
 logger.info("Modelo carregado!")
 
 # ESTADO POR USUÁRIO 
 #cada usuário tem seu próprio estado de detecção independente,
-#  isso serve para q caso entre outra pessoa no meio da scanner ele ainda consiga diferenciar
+# isso serve para q caso entre outra pessoa no meio da scanner ele ainda consiga diferenciar
 estados_usuarios = {}
 
 def get_estado_usuario(usuario_id: int) -> dict:
@@ -71,7 +70,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-#fotos capturadas para o frontend acessar
+#fotos capturadas para o front acessar
 app.mount("/captures", StaticFiles(directory="captures"), name="captures")
 
 #rotas
