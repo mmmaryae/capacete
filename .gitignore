@@ -1,7 +1,7 @@
 # Python
 __pycache__/
 *.pyc
-como_funciona.txt
+
 
 # Ambiente virtual
 venv/

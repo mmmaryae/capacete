@@ -1,0 +1,147 @@
+====================================================
+COMO FUNCIONA O PROJETO — EXPLICAÇÃO SIMPLES
+====================================================
+
+O projeto é um sistema que usa a câmera do computador ou celular
+para detectar se a pessoa está usando capacete ou não.
+Se ficar sem capacete por 3 segundos, dispara um alerta e salva no banco.
+
+====================================================
+OS ARQUIVOS E O QUE CADA UM FAZ
+====================================================
+
+--- scripts/scanner_alerta.py ---
+
+Esse é o arquivo principal. É o "cérebro" do sistema.
+Ele abre a câmera e fica olhando frame por frame, como um segurança.
+
+O que ele faz:
+  - viu alguém sem capacete? começa a contar (0.1s, 0.2s, 0.3s...)
+  - chegou em 3 segundos? dispara o alerta e salva a foto
+  - depois do alerta, fica em silêncio por 10 segundos (cooldown)
+  - acabou o cooldown? volta a monitorar normalmente
+
+Para rodar esse arquivo:
+  python scripts\scanner_alerta.py
+
+
+--- scripts/resposta_front.py ---
+
+Esse arquivo é o "tradutor" da IA para o site.
+Toda vez que a IA detecta algo, ela chama esse arquivo
+para organizar as informações num formato que o site entende.
+
+O que ele manda pro site:
+  - status: se está com ou sem capacete
+  - tempo: quantos segundos está sem capacete
+  - alerta: se o alerta foi disparado ou não
+  - tela_vermelha: avisa o site para deixar a tela vermelha
+  - tocar_som: avisa o site para tocar um som de alerta
+
+O site lê essas informações e exibe do jeito que quiser.
+Esse arquivo NÃO mexe no visual — isso é problema do frontend.
+
+
+--- scripts/alerta_service.py ---
+
+Esse arquivo é o "cartório" do sistema.
+Quando a IA detecta alguém sem capacete por 3 segundos,
+ela chama esse arquivo para registrar tudo.
+
+O que ele guarda no banco:
+  - quem era (usuario_id)
+  - data e hora do alerta
+  - foto capturada do momento
+  - de qual câmera veio
+
+Sobre o usuario_id = 1:
+  Por enquanto todos os alertas são salvos com usuario_id = 1.
+  Isso é temporário! Quando o login estiver pronto,
+  o ID vai vir automaticamente do usuário que estiver logado.
+  Não vai precisar mudar nada na mão.
+
+
+--- app.py ---
+
+Esse é o "atendente" do sistema. Fica esperando o site ligar.
+Quando o site manda um frame da câmera, esse arquivo:
+  1. recebe a imagem
+  2. roda a IA (YOLO) nela
+  3. aplica a lógica de alerta e cooldown
+  4. salva no banco se necessário
+  5. devolve o resultado pro site
+
+Rotas que o site pode usar:
+  POST /api/processar    → manda um frame, recebe o resultado da IA
+  GET  /api/alertas      → lista todos os alertas salvos
+  GET  /api/alertas/hoje → lista só os alertas de hoje
+
+Para rodar esse arquivo:
+  uvicorn app:app --reload
+
+
+--- model/best.pt ---
+
+Esse é o modelo de inteligência artificial treinado.
+Ele foi treinado para reconhecer duas coisas:
+  - com_capacete
+  - sem_capacete
+Sem esse arquivo, nada funciona.
+
+
+--- captures/ ---
+
+Pasta onde ficam salvas as fotos dos alertas.
+Toda vez que alguém fica 3 segundos sem capacete,
+uma foto é tirada e salva aqui automaticamente.
+Nome do arquivo: alerta_20260318_142511.jpg (data e hora)
+
+
+--- banco de dados: capacete_ia ---
+
+Onde ficam salvos todos os alertas para sempre.
+Pode ser acessado pelo phpMyAdmin no XAMPP.
+A tabela "alertas" tem: data, hora, foto, câmera, usuario_id.
+
+
+===================
+ESTRUTURA DE PASTAS
+===================
+
+capacete-ia/
+├── app.py                  → API principal (atendente do sistema)
+├── scripts/
+│   ├── scanner_alerta.py   → cérebro da IA (detecta capacete)
+│   ├── resposta_front.py   → tradutor para o site
+│   └── alerta_service.py   → cartório (salva no banco)
+├── model/
+│   └── best.pt             → modelo treinado de IA
+├── captures/               → fotos dos alertas
+└── epi_scanner.log         → histórico do que aconteceu
+
+
+=====
+O QUE O GRUPO AINDA PRECISA FAZER
+=====
+
+LOGIN:
+  - terminar o sistema de login
+  - avisar qual é o nome da tabela de usuários e o campo do ID
+  - com isso o usuario_id vai de 1 fixo para o ID real de quem logou
+
+FRONTEND:
+  - criar o site/dashboard
+  - abrir a câmera do usuário via JavaScript
+  - mandar os frames para POST /api/processar
+  - ler o resultado e exibir na tela
+  - listar os alertas usando GET /api/alertas
+
+quando o login estiver pronto:
+  - só integrar o usuario_id — uma mudança pequena
+  - testar tudo junto com o grupo
+
+
+A câmera captura → a IA detecta → o alerta é salvo no banco →
+o site exibe para o usuário. Cada parte do grupo cuida de um pedaço.
+
+====================================================
