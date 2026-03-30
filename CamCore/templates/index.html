@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>CamCore</title>
+  <link rel="icon" href="{{ url_for('static', filename='imagens.img/Logo.png') }}" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+
+  <div class="logo-area">
+    <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon">
+    <span class="logo-text">CamCore</span>
+  </div>
+
+  <!-- MENU DESKTOP -->
+  <nav class="menu-desktop" id="menuDesktop">
+    <a href="#inicio">Inicio</a>
+    <a href="#beneficios">Benefícios</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#perguntas">Dúvidas</a>
+    <a href="#contato">Contato</a>
+    <a href="{{ url_for('login')}}" class="btn-login">Login</a>
+    <a href="{{ url_for('cadastro')}}" class="btn-cadastro">Cadastro</a>
+  </nav>
+
+
+  <!-- BOTÃO HAMBURGUER -->
+  <div class="menu-toggle" id="menuToggle">
+    ☰
+  </div>
+
+</header>
+
+
+<!-- ===== MENU MOBILE ===== -->
+<div class="menu-mobile" id="menuMobile">
+
+  <div class="menu-mobile-header">
+  </div>
+
+  <a href="#inicio">Inicio</a>
+  <a href="#beneficios">Benefícios</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#perguntas">Dúvidas</a>
+  <a href="#contato">Contato</a>
+  <a href="#login">Login</a>
+  <a href="#cadastro">Cadastro</a>
+
+</div>
+
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="inicio">
+
+  <div class="hero-text">
+    <h1>Detecção em tempo real para mais segurança.</h1>
+    <a href="#sobre" class="btn-saiba">Saiba mais</a>
+  </div>
+
+  <div class="hero-image">
+    <img src="{{url_for('static', filename= 'imagens.img/tamplate.png')}}" alt="Camera">
+  </div>
+
+</section>
+
+
+<!-- ===== FUNÇÕES ===== -->
+
+<section class="funcoes" id="beneficios">
+
+  <img src="{{url_for('static', filename= 'imagens.img/camera2.jpg')}}" alt="Câmera Decorativa" class="camera-decorativa">
+  <h2>Principais Funções</h2>
+
+  <p class="subtitulo">
+    Transforme sua webcam em um aliado na prevenção de acidentes.
+    Nossa IA identifica ausências de capacete e emite alertas instantâneos
+    para proteger sua equipe.
+  </p>
+
+  
+  <div class="cards">
+
+    <div class="card">
+      <img src="{{url_for('static', filename= 'imagens.img/icon-estrela.png')}}" alt="Detecção de EPI" class="icone-img">
+      <h3>Detecção Automática de EPI</h3>
+      <p>
+        Identificação automática de capacetes via IA, garantindo
+        vigilância contínua e eficiente.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="{{url_for('static', filename= 'imagens.img/icon-alerta.png')}}" alt="Alertas em Tempo Real" class="icone-img">
+      <h3>Alertas em Tempo Real</h3>
+      <p>
+        Alertas imediatos para correção de riscos e prevenção
+        de acidentes.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="{{url_for('static', filename= 'imagens.img/icon-relatorio.png')}}" alt="Gestão e Relatórios" class="icone-img">
+      <h3>Gestão e Relatórios</h3>
+      <p>
+        Histórico de conformidade com indicadores de segurança
+        em tempo real.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== SOBRE ===== -->
+
+<section class="sobre" id="sobre">
+    <div class="sobre-container">
+        
+        <div class="sobre-image">
+            <img src="{{url_for('static', filename= 'imagens.img/template-capacete-camera.png')}}" alt="Câmera e Capacete">
+        </div>
+
+        <div class="sobre-text">
+            <h2>Sobre o CamCore</h2>
+            <p>
+                O CamCore é uma solução inovadora focada na segurança do trabalho, 
+                desenvolvida para automatizar o monitoramento do uso de capacetes de 
+                proteção em ambientes de risco. Nosso objetivo é utilizar a tecnologia 
+                para salvar vidas, garantindo que as normas de segurança sejam seguidas 
+                com precisão e em tempo real.
+            </p>
+            <a href="#" class="btn-testar">Testar</a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===== FAQ  ===== -->
+
+<section class="faq" id="perguntas">
+
+  <div class="faq-container">
+
+    <p class="faq-topo">Você tem alguma dúvida?</p>
+    <h3>Perguntas Frequentes</h3>
+
+    <div class="accordion">
+
+      <div class="item">
+        <button class="pergunta">
+          O uso da ferramenta é realmente gratuito?
+          <span>+</span>
+        </button>
+        <div class="resposta">
+          Sim! O CamCore é totalmente gratuito. Nosso objetivo é promover a segurança no trabalho através da tecnologia de fácil acesso para todos.
+        </div>
+      </div>
+
+      <div class="item">
+        <button class="pergunta">
+          Por que preciso criar uma conta para usar a câmera?
+          <span>+</span>
+        </button>
+        <div class="resposta">
+          O cadastro é necessário para garantirmos a segurança da plataforma e para que você possa salvar seu histórico de verificações ou acessar funcionalidades personalizadas no futuro.
+        </div>
+      </div>
+
+      <div class="item">
+        <button class="pergunta">
+          Meus dados de imagem são salvos no servidor?
+          <span>+</span>
+        </button>
+        <div class="resposta">
+          Não. A detecção do capacete acontece em tempo real. Nós prezamos pela sua privacidade e não armazenamos capturas de tela ou gravações da sua webcam sem sua permissão explícita.
+        </div>
+      </div>
+
+      <div class="item">
+        <button class="pergunta">
+          Quais são os requisitos técnicos para funcionar?
+          <span>+</span>
+        </button>
+        <div class="resposta">
+          Você só precisa de um navegador moderno (Chrome, Edge ou Firefox) e uma webcam funcionando. O sistema é otimizado para rodar diretamente no navegador, sem precisar instalar nada.
+        </div>
+      </div>
+
+      <div class="item">
+        <button class="pergunta">
+          Esqueci minha senha, como posso recuperar?
+          <span>+</span>
+        </button>
+        <div class="resposta">
+          Na tela de login, clique em "Esqueci minha senha". Enviaremos um link de recuperação para o e-mail que você utilizou no cadastro.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+  <!-- FORMULÁRIO -->
+
+<section class="contato" id="contato">
+
+  <div class="contato-container">
+
+    <div class="contato-texto">
+
+      <h3>
+        Não Fique com Dúvidas:<br>
+        Entre em Contato<br>
+        Conosco!
+      </h3>
+
+      <p>
+        Quer falar com a gente ou ficou com alguma dúvida?<br>
+        Entre em contato pelos nossos canais oficiais.
+      </p>
+
+      <p class="redes-titulo">Siga as redes sociais do camcore</p>
+
+      <div class="redes">
+
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icone-insta.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/threads.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icon-X.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icon-facebook.png')}}"></div>
+
+      </div>
+
+    </div>
+
+
+    <form class="contato-form" onsubmit="enviarWhats(event)">
+
+      <input
+        type="text"
+        id="nome"
+        placeholder="Nome"
+        required
+      >
+
+      <textarea
+        id="mensagem"
+        placeholder="Digite sua mensagem"
+        required
+      ></textarea>
+
+      <button type="submit">Enviar</button>
+
+    </form>
+
+  </div>
+
+</section>
+
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- LOGO / SOBRE -->
+    <div class="footer-col">
+      <h3>CamCore</h3>
+      <p>
+        Tecnologia inteligente para promover segurança no trabalho
+        através da detecção automática de EPI.
+      </p>
+    </div>
+
+    <!-- LINKS -->
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <a href="#inicio">Início</a>
+      <a href="#beneficios">Benefícios</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#perguntas">Dúvidas</a>
+      <a href="#contato">Contato</a>
+    </div>
+
+    <!-- CONTATO -->
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <p>Email: camcore@gmail.com</p>
+      <p>WhatsApp: (11) 91234-7567</p>
+    </div>
+
+    <!-- REDES -->
+    <div class="footer-col">
+      <h4>Redes Sociais</h4>
+
+      <div class="redes2">
+
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icone-insta.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/threads.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icon-X.png')}}"></div>
+        <div class="rede"><img src="{{url_for('static', filename= 'imagens.img/icon-facebook.png')}}"></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 CamCore — Todos os direitos reservados
+  </div>
+
+</footer>
+
+
+
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+
+</body>
+</html>

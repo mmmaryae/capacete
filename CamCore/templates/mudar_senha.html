@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Redefinir Senha</title>
+</head>
+<body>
+    <h2>Digite sua nova senha</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <div>
+            {{ form.senha.label }}<br>
+            {{ form.senha() }}
+        </div>
+        
+        <div>
+            {{ form.confirmacao_senha.label }}<br>
+            {{ form.confirmacao_senha() }}
+        </div>
+        
+        <br>
+        {{ form.botao_confimacao() }}
+    </form>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>CamCore</title>
+  <link rel="icon" href="{{url_for('static', filename= 'imagens.img/Logo.png')}}" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="logo-area">
+      <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" alt="Logo CamCore">
+      <span class="logo-text">CamCore</span>
+    </div>
+
+    <nav class="nav-botoes">
+      <a href="relatorios.html" class="nav-btn">Relatórios</a>
+      <a href="{{url_for('logout')}}" class="nav-btn">Sair</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div class="container-camera">
+      <div class="camera-box" id="cameraBox">
+        <video id="video" autoplay muted playsinline></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+
+        <div id="alertaViolacao" class="alerta-overlay">
+          <p>VIOLAÇÃO REGISTRADA</p>
+          <button id="btnOkAlerta" class="btn-ok-alerta">OK</button>
+        </div>
+
+        <div id="status">Câmera desligada</div>
+      </div>
+
+      <button id="btnCamera" class="btn-camera">
+        <span class="icon-camera">📷</span>
+        <span id="btnText">Ligar Câmera</span>
+      </button>
+    </div>
+  </section>
+
+  <script src="{{url_for('static', filename='js/camera.js')}}"></script>
+</body>
+</html>

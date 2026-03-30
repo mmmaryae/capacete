@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CamCore - Recuperar Senha</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+
+  <div class="logo-area">
+    <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon">
+    <span class="logo-text">CamCore</span>
+  </div>
+
+  <!-- MENU DESKTOP -->
+  <nav class="menu-desktop" id="menuDesktop">
+    <a href="{{url_for('home')}}">Inicio</a>
+    <a href="{{ url_for('login')}}" class="btn-login">Login</a>
+    <a href="{{ url_for('cadastro')}}" class="btn-cadastro">Cadastro</a>
+  </nav>
+
+
+  <!-- BOTÃO HAMBURGUER -->
+  <div class="menu-toggle" id="menuToggle">
+    ☰
+  </div>
+
+</header>
+
+
+    <main>
+        <form class="login-card" method="POST">
+            {{ form.hidden_tag() }} 
+
+            <h2>Recuperar Senha</h2>
+            <p style="text-align: center; color: #ffffff; margin-bottom: 20px; font-size: 14px;">
+                Digite seu e-mail abaixo e enviaremos um link para você redefinir sua senha.
+            </p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div style="text-align: center; margin-bottom: 15px; padding: 10px; border-radius: 5px; font-size: 14px; 
+                                    color: white; background-color: {{ '#4CAF50' if category == 'success' else '#f44336' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="form-group">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </div>
+                {{ form.email(class="input-field", placeholder="Digite seu e-mail cadastrado") }}
+            </div>
+
+            {{ form.botao_confimacao(class="btn-submit") }}
+            
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="{{ url_for('login') }}" style="color: #ffffff; font-size: 14px; text-decoration: none;">Voltar para o Login</a>
+            </div>
+        </form>
+    </main>
+
+</body>
+</html>
