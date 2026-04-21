@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CamCore - Login</title>
     <link rel="icon" href="{{ url_for('static', filename='imagens.img/Logo.png') }}" type="image/png">
+    <link rel="icon2" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="camcore-auth-bg">
     <!-- ===== NAVBAR ===== -->
     <header class="navbar">
 
@@ -60,9 +61,11 @@
 
                 </div>
                 <a href="{{ url_for('reset_senha') }}" class="forgot-password">Esqueci minha senha</a>
+                
 
 
                 {{ form.botao_confimacao(class="btn-submit") }}
+                <p>Ainda não tem conta?<a href="{{ url_for('cadastro') }}" class="new-account">Crie uma agora </a></p>
             </form>
         </body>
     </main>

@@ -3,7 +3,7 @@ import time
 import cv2
 import numpy as np
 from pathlib import Path
-from datetime import datetime, date
+from datetime import datetime, date,  timedelta
 from flask import render_template, url_for, redirect, request, flash, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
 from flask_mail import Message
@@ -93,6 +93,8 @@ def logout():
     return redirect(url_for("login"))
 
 
+
+
 # ==============================================================================
 # LÓGICA DE RECUPERAÇÃO DE SENHA
 # ==============================================================================
@@ -160,7 +162,7 @@ def mudar_senha(token):
 
 
 # ==============================================================================
-# ROTAS DA IA E RELATÓRIOS (ANTIGO FASTAPI)
+# ROTAS DA IA E RELATÓRIOS
 # ==============================================================================
 
 @app.route("/api/processar", methods=["POST"])
@@ -228,22 +230,48 @@ def processar_frame():
         "alerta": alerta_gerado
     })
 
-@app.route("/api/alertas/hoje", methods=["GET"])
+@app.route("/api/alertas", methods=["GET"])
 @login_required
-def alertas_hoje():
+def buscar_alertas():
+    periodo = request.args.get('periodo', 'hoje') # Pega a palavra que o JS mandou
     hoje = date.today()
-    # Busca apenas os alertas do funcionário logado, criados hoje
+    
+    # Define a data limite baseada no filtro escolhido
+    if periodo == 'semana':
+        data_limite = hoje - timedelta(days=7)
+    elif periodo == 'mes':
+        data_limite = hoje - timedelta(days=30)
+    else:
+        # Padrão: Hoje
+        data_limite = hoje
+
+    # Faz a consulta no banco: Alertas do usuário atual DEPOIS da data limite
     alertas = Alerta.query.filter(
         Alerta.usuario_id == current_user.id,
-        database.func.date(Alerta.data_hora) == hoje
+        database.func.date(Alerta.data_hora) >= data_limite
     ).order_by(Alerta.data_hora.desc()).all()
     
     lista_alertas = []
     for a in alertas:
         lista_alertas.append({
             "id": a.id,
-            "hora": a.data_hora.strftime("%H:%M:%S"),
+            "data": a.data_hora.strftime("%d/%m/%Y"), # Formata a data (Ex: 25/10/2023)
+            "hora": a.data_hora.strftime("%H:%M:%S"), # Formata a hora (Ex: 14:30:00)
             "imagem": url_for('static', filename=a.imagem_path)
         })
 
     return jsonify({"total": len(lista_alertas), "alertas": lista_alertas})
+
+# Rota para renderizar a página HTML
+@app.route("/relatorios")
+@login_required
+def relatorios_page():
+    return render_template("relatorios.html")
+
+
+# ==============================================================================
+#  RELATÓRIOS
+# ==============================================================================
+@app.route("/relatorio", methods=["GET"])
+def relatorio():
+    return render_template("relatorio.html")

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="camcore-auth-bg">
 
     <!-- ===== NAVBAR ===== -->
     <header class="navbar">
@@ -82,9 +82,9 @@
                 {{ form.confirmacao_senha(class="input-field", placeholder="Confirme a senha") }}
             </div>
 
-            <p>Já tem uma conta? <a href="{{ url_for('login') }}" class="forgot-password">Faça login aqui</a></p>
 
             {{ form.botao_confimacao(class="btn-submit") }}
+            <p>Já tem uma conta? <a href="{{ url_for('login') }}" class="forgot-password">Faça login aqui</a></p>
 
 
         </form>
