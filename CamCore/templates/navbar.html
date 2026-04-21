@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/camera.css') }}">
+</head>
+<body>
+    
+
+
+<header class="navbar">
+
+    <div class="logo-area">
+        <img src="{{ url_for('static', filename='imagens.img/Logo.png') }}" class="logo-icon">
+        <span class="logo-text">CamCore</span>
+    </div>
+
+    <nav class="menu-desktop" id="menuDesktop">
+        <a href="{{ url_for('sistema') }}">Home</a>
+        <a href="{{ url_for('logout') }}" class="btn-cadastro">Sair</a>
+    </nav>
+
+    <div class="menu-toggle" id="menuToggle">
+        ☰
+    </div>
+
+</header>
+
+</body>
+</html>

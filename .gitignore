@@ -14,3 +14,17 @@ epi_scanner.log
 captures/
 
 
+__init__.py
+
+
+criar_banco.py
+
+
+#Js antigo da camera
+
+CamCore/static/js/camera2.js
+
+
+#Banco de dados
+instance
+
