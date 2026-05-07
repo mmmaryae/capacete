@@ -224,3 +224,21 @@ body {
     font-size: 20px;
   }
 }
+
+.btn-deletar-card {
+    margin-top: 5px;
+    width: 30%;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-deletar-card:hover {
+    background-color: #d9363e;
+}

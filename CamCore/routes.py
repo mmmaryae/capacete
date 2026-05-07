@@ -178,6 +178,12 @@ def processar_frame():
     if frame is None:
         return jsonify({"erro": "Frame inválido"}), 400
 
+    # ==============================================================
+    # 🚨 DETOX DE MEMÓRIA: Encolhe a foto antes da IA e do Banco!
+    # Isso salva a RAM do servidor e o espaço no HD do Render.
+    frame = cv2.resize(frame, (640, 480))
+    # ==============================================================
+
     # 2. Roda a IA
     results = model(frame, verbose=False)
     detectou_sem_capacete = any(
@@ -198,7 +204,7 @@ def processar_frame():
 
         # Se passou de 10 segundos sem capacete e não está em cooldown
         if tempo_decorrido >= 10 and (agora - estado["ultimo_alerta"]) >= 10:
-            # Salva a imagem
+            # Salva a imagem (agora ela será salva mais leve graças ao resize!)
             nome_arquivo = f"alerta_{usuario_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
             caminho_salvamento = CAPTURE_DIR / nome_arquivo
             cv2.imwrite(str(caminho_salvamento), frame)
@@ -224,6 +230,7 @@ def processar_frame():
         status = "com_capacete"
         tempo_decorrido = 0
 
+    # 4. Devolve o JSON certinho que o Front-end espera!
     return jsonify({
         "status": status,
         "tempo": round(tempo_decorrido, 1),
@@ -268,6 +275,32 @@ def buscar_alertas():
 def relatorios_page():
     return render_template("relatorios.html")
 
+
+
+#Excluir um alerta (Focado em caso de erro)
+@app.route('/api/alertas/<int:alerta_id>', methods=['DELETE'])
+@login_required
+def deletar_alerta(alerta_id):
+    # 1. Busca o alerta no banco de dados
+    alerta = database.session.query(Alerta).filter_by(id=alerta_id).first()
+
+    # 2. Verifica se o alerta existe e se pertence ao usuário logado (Segurança!)
+    if not alerta:
+        return jsonify({"erro": "Alerta não encontrado"}), 404
+        
+    if alerta.usuario_id != current_user.id:
+        return jsonify({"erro": "Acesso negado"}), 403
+
+    # 3. Deleta a imagem física da pasta 'captures'
+    caminho_imagem = os.path.join(app.root_path, alerta.imagem_path)
+    if os.path.exists(caminho_imagem):
+        os.remove(caminho_imagem) # Apaga o .jpg do HD!
+
+    # 4. Deleta o registro do Banco de Dados
+    database.session.delete(alerta)
+    database.session.commit()
+
+    return jsonify({"mensagem": "Alerta e imagem deletados com sucesso!"}), 200
 
 # ==============================================================================
 #  RELATÓRIOS

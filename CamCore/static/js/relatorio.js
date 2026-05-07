@@ -27,11 +27,18 @@ async function carregarRelatorio(periodo) {
       const card = document.createElement('div');
       card.className = 'alerta-card';
       
+      // ADIÇÃO 1: Coloquei um ID no card para o JavaScript saber quem apagar depois
+      card.id = `card-alerta-${alerta.id}`; 
+      
+      // ADIÇÃO 2: Adicionei o botão de Excluir dentro do HTML do card
       card.innerHTML = `
         <img src="${alerta.imagem}" alt="Violação de EPI" class="alerta-img">
         <div class="alerta-info">
           <span class="alerta-data">${alerta.data}</span>
           <span class="alerta-hora"> ${alerta.hora}</span>
+          <button onclick="deletarAlerta(${alerta.id})" class="btn-deletar-card">
+              Excluir
+          </button>
         </div>
       `;
       
@@ -61,3 +68,43 @@ botoesFiltro.forEach(botao => {
 window.onload = () => {
   carregarRelatorio('hoje');
 };
+
+
+async function deletarAlerta(alertaId) {
+  const confirmacao = confirm("Tem certeza que deseja apagar este alerta? A foto será excluída.");
+  
+  if (!confirmacao) return;
+
+  try {
+    const resposta = await fetch(`/api/alertas/${alertaId}`, {
+      method: 'DELETE'
+    });
+
+    if (resposta.ok) {
+      // Pega o card que acabou de ser deletado
+      const card = document.getElementById(`card-alerta-${alertaId}`);
+      if (card) {
+        // Faz uma animação de sumiço bonitinha
+        card.style.transition = "all 0.4s ease";
+        card.style.opacity = "0";
+        card.style.transform = "scale(0.9)";
+        
+        setTimeout(() => {
+          card.remove(); // Remove o HTML definitivamente
+          
+          // Recarrega a aba atual para atualizar os números lá em cima
+          const abaAtiva = document.querySelector('.filtro-btn.active').getAttribute('data-periodo');
+          carregarRelatorio(abaAtiva);
+          
+        }, 400);
+      }
+    } else {
+      const dados = await resposta.json();
+      alert("Erro ao deletar: " + (dados.erro || "Falha desconhecida"));
+    }
+
+  } catch (erro) {
+    console.error("Erro na requisição DELETE:", erro);
+    alert("Erro de conexão. Verifique o console.");
+  }
+}
