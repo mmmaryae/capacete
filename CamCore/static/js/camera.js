@@ -224,3 +224,20 @@ async function enviarFrame() {
     processando = false;
   }
 }
+
+const menuToggle = document.getElementById('menuToggle');
+const menuDesktop = document.getElementById('menuDesktop');
+
+menuToggle.addEventListener('click', function() {
+    menuDesktop.classList.toggle('ativo');
+});
+
+
+// Fica vigiando o tamanho da tela em tempo real
+window.addEventListener('resize', function() {
+    // Se a tela passar de 768px (voltar a ser PC)
+    if (window.innerWidth > 768) {
+        // Remove a classe ativo à força para não quebrar o layout
+        menuDesktop.classList.remove('ativo');
+    }
+});

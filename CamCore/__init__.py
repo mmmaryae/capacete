@@ -5,14 +5,26 @@ from flask_bcrypt import Bcrypt
 from flask_mail import Mail
 import os
 from dotenv import load_dotenv
+
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
 app = Flask(__name__)
 
-# Agora os dados sensíveis são puxados de forma segura
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.config['SECRET_KEY']  = os.getenv('SECRET_KEY')
+# ==============================================================
+# 🚨 CONFIGURAÇÃO INTELIGENTE DO BANCO DE DADOS
+# ==============================================================
+# Pega a URL do Render. Se não achar (rodando no seu PC), usa o SQLite padrão.
+banco_url = os.getenv('DATABASE_URL', 'sqlite:///camcore.db')
+
+# O macete obrigatório para o Render (corrige o nome do postgres)
+if banco_url.startswith("postgres://"):
+    banco_url = banco_url.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = banco_url
+# ==============================================================
+
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 # --- CONFIGURAÇÃO DE E-MAIL (MAILTRAP) ---
 # Servidor e porta não são dados sensíveis, podem ficar no código

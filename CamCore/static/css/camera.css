@@ -54,6 +54,13 @@
   gap: 20px;
 }
 
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  color: #fdfdfd;
+  font-size: 24px;
+}
+
 .nav-btn {
   background: #0f1c33;
   color: white;
@@ -197,24 +204,42 @@
   .camera-box {
     width: 100%;
     max-width: 95vw;
-    height: auto;
+    height: 300px;
     aspect-ratio: 16 / 9;
   }
 
-  .navbar {
-    padding: 15px 5%;
-  }
+  /* Mostra o ícone do hambúrguer */
+    .menu-toggle {
+        display: block; 
+        color: #fdfdfd;
+    }
 
-  .nav-botoes {
-    gap: 10px;
-  }
+    .menu-desktop.ativo {
+        display: flex;
+    }
 
-  .nav-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
+    .nav-botoes {
+        display: none; 
+        flex-direction: column;
+        position: absolute;
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background-color: rgba(1, 4, 54, 0.37); 
+        padding: 12px 20px;
+        gap: 10px;
+        z-index: 1000;
+    }
 
-  .logo-text {
-    font-size: 20px;
-  }
+    .nav-botoes.ativo {
+        display: flex;
+    }
+
+    .nav-botoes a {
+        color: #fdfdfd;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+        width: 100%; 
+    }
 }

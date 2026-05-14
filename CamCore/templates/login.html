@@ -15,8 +15,8 @@
     <header class="navbar">
 
         <div class="logo-area">
-            <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon">
-            <span class="logo-text">CamCore</span>
+            <a href="{{url_for('home')}}"><img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" >
+            <span class="logo-text">CamCore</span></a>
         </div>
 
         <!-- MENU DESKTOP -->
@@ -33,13 +33,23 @@
 
     </header>
 
-<!-- Formulário -->
+    <!-- Formulário -->
     <main>
+
         <body>
             <form class="login-card" action="/login" method="POST">
                 {{ form.hidden_tag() }}
                 <h2>Login</h2>
-
+                {% with mensagens = get_flashed_messages(with_categories=true) %}
+                    {% if mensagens %}
+                        {% for categoria, mensagem in mensagens %}
+                            <div class="alert alert-{{ categoria }}">
+                                 {{ mensagem }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
                 <div class="form-group">
                     <div class="icon">
                         <svg viewBox="0 0 24 24">
@@ -61,7 +71,7 @@
 
                 </div>
                 <a href="{{ url_for('reset_senha') }}" class="forgot-password">Esqueci minha senha</a>
-                
+
 
 
                 {{ form.botao_confimacao(class="btn-submit") }}

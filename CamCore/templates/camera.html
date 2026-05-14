@@ -15,15 +15,23 @@
 
   <header class="navbar">
     <div class="logo-area">
-      <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" alt="Logo CamCore">
+      <img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" >
       <span class="logo-text">CamCore</span>
     </div>
 
-    <nav class="nav-botoes">
+    <nav class="nav-botoes" id="menuDesktop">
       <a href="{{url_for('relatorio')}}" class="nav-btn">Relatórios</a>
       <a href="{{url_for('logout')}}" class="nav-btn">Sair</a>
     </nav>
+
+    <div class="menu-toggle" id="menuToggle">
+        ☰
+    </div>
+
+    
   </header>
+
+
 
   <section class="hero" id="inicio">
     <div class="container-camera">

@@ -15,8 +15,8 @@
     <header class="navbar">
 
     <div class="logo-area">
-        <img src="{{ url_for('static', filename='imagens.img/Logo.png') }}" class="logo-icon">
-        <span class="logo-text">CamCore</span>
+        <a href="{{url_for('sistema')}}"><img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" >
+            <span class="logo-text">CamCore</span></a>
     </div>
 
     <nav class="menu-desktop" id="menuDesktop">
@@ -41,6 +41,8 @@
       <button class="filtro-btn" data-periodo="semana">Esta Semana</button>
       <button class="filtro-btn" data-periodo="mes">Este Mês</button>
     </div>
+
+    
 
     <div class="alertas-grid" id="gridAlertas">
       </div>
