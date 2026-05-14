@@ -1,0 +1,22 @@
+# --- Servidor ---
+gunicorn
+
+# --- Back-end Web e Segurança ---
+Flask
+Flask-SQLAlchemy
+Flask-Login
+Flask-Bcrypt
+Flask-Mail
+Flask-WTF
+python-dotenv
+email-validator
+
+# --- Inteligência Artificial (Versão DETOX) ---
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+ultralytics
+opencv-python-headless
+numpy
+psutil
+psycopg2-binary
