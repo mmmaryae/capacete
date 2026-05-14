@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <title>Relatórios - CamCore</title>
@@ -12,23 +13,24 @@
 
 <body>
 
-    <header class="navbar">
+  <header class="navbar">
 
     <div class="logo-area">
-        <a href="{{url_for('sistema')}}"><img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}" class="logo-icon" >
-            <span class="logo-text">CamCore</span></a>
+      <a href="{{url_for('sistema')}}"><img src="{{url_for('static', filename= 'imagens.img/Logo.png')}}"
+          class="logo-icon">
+        <span class="logo-text">CamCore</span></a>
     </div>
 
     <nav class="menu-desktop" id="menuDesktop">
-        <a href="{{ url_for('sistema') }}" class="btn-inicio">Câmera</a>
-        <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+      <a href="{{ url_for('sistema') }}" class="btn-inicio">Câmera</a>
+      <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
     </nav>
 
     <div class="menu-toggle" id="menuToggle">
-        ☰
+      ☰
     </div>
 
-</header>
+  </header>
 
   <section class="relatorios-container">
     <div class="cabecalho-relatorio">
@@ -40,14 +42,18 @@
       <button class="filtro-btn active" data-periodo="hoje">Hoje</button>
       <button class="filtro-btn" data-periodo="semana">Esta Semana</button>
       <button class="filtro-btn" data-periodo="mes">Este Mês</button>
+      <button class="filtro-btn btn-pdf" id="btnExportarPdf" onclick="exportarPDF()">
+        📄 Exportar PDF
+      </button>
     </div>
 
-    
+
 
     <div class="alertas-grid" id="gridAlertas">
-      </div>
+    </div>
   </section>
 
   <script src="{{url_for('static', filename='js/relatorio.js')}}"></script>
 </body>
+
 </html>
