@@ -16,6 +16,19 @@ from CamCore import app, database, bcrypt, mail
 from CamCore.forms import FormCriarConta, FormLogin, FormResetarSenha, FormNovaSenha
 from CamCore.models import Usuario, Alerta
 
+#add novas coisas
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import cm
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from flask import make_response
+import io
+
+
+
+
 
 # ==============================================================================
 # CONFIGURAÇÕES DA IA (YOLO)
@@ -199,7 +212,7 @@ def processar_frame():
         
         tempo_decorrido = agora - estado["tempo_sem_capacete_inicio"]
 
-        # Se passou de 10 segundos sem capacete e não está em cooldown
+        # Se passou de 5 segundos sem capacete e não está em cooldown
         if tempo_decorrido >= 5 and (agora - estado["ultimo_alerta"]) >= 5:
             # Salva a imagem (agora ela será salva mais leve graças ao resize!)
             nome_arquivo = f"alerta_{usuario_id}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpg"
@@ -305,3 +318,151 @@ def deletar_alerta(alerta_id):
 @app.route("/relatorio", methods=["GET"])
 def relatorio():
     return render_template("relatorio.html")
+
+
+#pdf parte
+
+@app.route("/api/relatorio/pdf", methods=["GET"])
+@login_required
+def exportar_pdf():
+    periodo = request.args.get('periodo', 'hoje')
+    hoje = date.today()
+
+    # Define o período igual à rota /api/alertas
+    if periodo == 'semana':
+        data_limite = hoje - timedelta(days=7)
+        titulo_periodo = "Esta Semana"
+    elif periodo == 'mes':
+        data_limite = hoje - timedelta(days=30)
+        titulo_periodo = "Este Mês"
+    else:
+        data_limite = hoje
+        titulo_periodo = "Hoje"
+
+    # Busca os alertas do usuário logado
+    alertas = Alerta.query.filter(
+        Alerta.usuario_id == current_user.id,
+        database.func.date(Alerta.data_hora) >= data_limite
+    ).order_by(Alerta.data_hora.desc()).all()
+
+    # Monta o PDF em memória (sem salvar em disco)
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=2*cm,
+        leftMargin=2*cm,
+        topMargin=2*cm,
+        bottomMargin=2*cm
+    )
+
+    styles = getSampleStyleSheet()
+    story = []
+
+    # Estilo do título
+    estilo_titulo = ParagraphStyle(
+        'Titulo',
+        parent=styles['Title'],
+        fontSize=20,
+        textColor=colors.HexColor('#0f1c33'),
+        spaceAfter=6,
+        alignment=TA_CENTER
+    )
+
+    # Estilo do subtítulo
+    estilo_subtitulo = ParagraphStyle(
+        'Subtitulo',
+        parent=styles['Normal'],
+        fontSize=11,
+        textColor=colors.HexColor('#5d6f8a'),
+        spaceAfter=4,
+        alignment=TA_CENTER
+    )
+
+    # Estilo do rodapé
+    estilo_rodape = ParagraphStyle(
+        'Rodape',
+        parent=styles['Normal'],
+        fontSize=9,
+        textColor=colors.grey,
+        alignment=TA_CENTER
+    )
+
+    # Cabeçalho
+    story.append(Paragraph("CamCore", estilo_titulo))
+    story.append(Paragraph("Relatório de Violações de EPI", estilo_subtitulo))
+    story.append(Paragraph(f"Período: {titulo_periodo}  |  Gerado em: {hoje.strftime('%d/%m/%Y')}  |  Usuário: {current_user.nome}", estilo_subtitulo))
+    story.append(Spacer(1, 0.3*cm))
+    story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#5d6f8a')))
+    story.append(Spacer(1, 0.5*cm))
+
+    # Total de ocorrências
+    estilo_total = ParagraphStyle(
+        'Total',
+        parent=styles['Normal'],
+        fontSize=12,
+        textColor=colors.HexColor('#0f1c33'),
+        spaceAfter=12
+    )
+    story.append(Paragraph(f"<b>Total de ocorrências registradas: {len(alertas)}</b>", estilo_total))
+
+    if len(alertas) == 0:
+        story.append(Spacer(1, 1*cm))
+        story.append(Paragraph("Nenhuma violação registrada neste período.", estilo_subtitulo))
+    else:
+        # Cabeçalho da tabela
+        dados_tabela = [["#", "Data", "Hora", "Origem"]]
+
+        for i, alerta in enumerate(alertas, start=1):
+            dados_tabela.append([
+                str(i),
+                alerta.data_hora.strftime("%d/%m/%Y"),
+                alerta.data_hora.strftime("%H:%M:%S"),
+                f"camera_usuario_{alerta.usuario_id}"
+            ])
+
+        # Estilo da tabela
+        tabela = Table(dados_tabela, colWidths=[1.5*cm, 4*cm, 4*cm, 8*cm])
+        tabela.setStyle(TableStyle([
+            # Cabeçalho
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#0f1c33')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 11),
+            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+            ('TOPPADDING', (0, 0), (-1, 0), 10),
+
+            # Linhas alternadas
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#f0f4f8')]),
+            ('FONTNAME', (0, 1), (-1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 1), (-1, -1), 10),
+            ('ALIGN', (0, 1), (-1, -1), 'CENTER'),
+            ('BOTTOMPADDING', (0, 1), (-1, -1), 8),
+            ('TOPPADDING', (0, 1), (-1, -1), 8),
+
+            # Borda geral
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#c0ccd8')),
+            ('ROUNDEDCORNERS', [4, 4, 4, 4]),
+        ]))
+
+        story.append(tabela)
+
+    # Rodapé
+    story.append(Spacer(1, 1*cm))
+    story.append(HRFlowable(width="100%", thickness=0.5, color=colors.HexColor('#c0ccd8')))
+    story.append(Spacer(1, 0.3*cm))
+    story.append(Paragraph("© 2026 CamCore — Todos os direitos reservados", estilo_rodape))
+
+    # Gera o PDF
+    doc.build(story)
+    buffer.seek(0)
+
+    # Monta o nome do arquivo para download
+    nome_arquivo = f"relatorio_camcore_{periodo}_{hoje.strftime('%Y%m%d')}.pdf"
+
+    # Retorna o PDF como download direto no navegador
+    response = make_response(buffer.read())
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename={nome_arquivo}'
+    return response
