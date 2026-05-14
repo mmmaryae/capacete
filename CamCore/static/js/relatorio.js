@@ -2,8 +2,12 @@ const botoesFiltro = document.querySelectorAll('.filtro-btn');
 const gridAlertas = document.getElementById('gridAlertas');
 const totalAlertasText = document.getElementById('total-alertas');
 
+let periodoAtivo = 'hoje';
+
+
 // Função que busca os dados no Flask
 async function carregarRelatorio(periodo) {
+  periodoAtivo = periodo; 
   // Mostra estado de carregamento
   gridAlertas.innerHTML = '<p style="color: white;">Buscando registros no banco de dados...</p>';
   
@@ -51,18 +55,36 @@ async function carregarRelatorio(periodo) {
   }
 }
 
-// Configura o clique dos botões
+function exportarPDF() {
+  const btn = document.getElementById('btnExportarPdf');
+  btn.textContent = '⏳ Gerando...';
+  btn.disabled = true;
+
+  window.location.href = `/api/relatorio/pdf?periodo=${periodoAtivo}`;
+
+  setTimeout(() => {
+    btn.textContent = '📄 Exportar PDF';
+    btn.disabled = false;
+  }, 2000);
+}
+
+
+
 botoesFiltro.forEach(botao => {
   botao.addEventListener('click', () => {
-    // Remove a classe "active" de todos e coloca só no clicado
+
+    if (botao.id === 'btnExportarPdf') return;
+
     botoesFiltro.forEach(b => b.classList.remove('active'));
     botao.classList.add('active');
 
-    // Pega o valor (hoje, semana, ou mes) e busca no banco
     const periodoSelecionado = botao.getAttribute('data-periodo');
     carregarRelatorio(periodoSelecionado);
   });
 });
+
+
+
 
 // Assim que a página abrir, carrega os dados de "Hoje" automaticamente
 window.onload = () => {
