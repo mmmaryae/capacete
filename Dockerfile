@@ -19,6 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Usando o formato JSON (entre colchetes) para o CMD 
-# Isso resolve o aviso "JSONArgsRecommended" e ajuda no gerenciamento de sinais do SRE
 CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:8000"]
