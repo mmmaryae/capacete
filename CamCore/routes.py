@@ -70,7 +70,7 @@ def cadastro():
         database.session.add(usuario)
         database.session.commit()
         login_user(usuario, remember=True)
-        return redirect(url_for("sistema"))
+        return redirect(url_for("login"))
     return render_template("cadastro.html", form=form_criarconta)
 
 @app.route("/login", methods=["GET", "POST"])
